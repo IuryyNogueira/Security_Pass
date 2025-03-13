@@ -1,0 +1,21 @@
+.password-section {
+    display: grid;
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+  
+  .transition-char {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .expected-char {
+    color: #cbd5e0;
+    opacity: 0.6;
+  }
+  
+  .attempted-char {
+    color: white;
+    font-weight: bold;
+  }
