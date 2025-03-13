@@ -14,7 +14,6 @@ Um simulador interativo de autômato finito que demonstra visualmente o processo
 - **Validação em tempo real**:
   - Cores dinâmicas (verde/acerto, vermelho/erro)
   - Estado final com círculo duplo pulsante
-- **Totalmente responsivo**
 
 ## Como Executar 🚀
 
