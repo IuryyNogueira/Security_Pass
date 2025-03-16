@@ -1,84 +1,56 @@
 import { useSpring, animated } from '@react-spring/web';
 import styles from './styles.module.css';
 
-const TransitionArrow = ({ from, to, char, isValid }) => {
-  // Pontos de início e fim da seta (borda dos círculos)
-  const start = { x: from.x + 25, y: from.y };
-  const end = { x: to.x - 25, y: to.y };
-  
-  // Cálculo do ponto de controle da curva
-  const controlPoint = {
-    x: (start.x + end.x) / 2,
-    y: start.y - 50
-  };
-
-  // Cálculo preciso do ponto médio da curva Bézier
-  const t = 0.5; // Ponto médio
-  const midX = (1 - t) ** 2 * start.x + 2 * (1 - t) * t * controlPoint.x + t ** 2 * end.x;
-  const midY = (1 - t) ** 2 * start.y + 2 * (1 - t) * t * controlPoint.y + t ** 2 * end.y;
-
-  const arrowSpring = useSpring({
-    from: { opacity: 0 },
-    to: { opacity: 1 },
-    config: { tension: 220 }
-  });
+const TransitionArrow = ({ from, to, char, isValid, isLoop }) => {
+  const arrowSpring = useSpring({ from: { opacity: 0 }, to: { opacity: 1 }, config: { tension: 220 } });
 
   return (
-    <animated.div 
-      style={arrowSpring} 
-      className={styles.transitionContainer}
-    >
-      {/* Seta */}
+    <animated.div style={arrowSpring} className={styles.transitionContainer}>
       <svg
-        width={Math.abs(end.x - start.x)}
-        height="100"
+        width="50"
+        height="50"
         style={{
           position: 'absolute',
-          left: start.x,
-          top: start.y - 50,
+          left: from.x - 25,
+          top: from.y - 50,
           overflow: 'visible'
         }}
       >
-        <path
-          d={`M 0 50 Q ${controlPoint.x - start.x} 0, ${end.x - start.x} 50`}
-          stroke={isValid ? '#48bb78' : '#f56565'}
-          strokeWidth="2"
-          fill="none"
-          markerEnd={`url(#arrow-${isValid ? 'valid' : 'invalid'})`}
-        />
-        
+        {isLoop ? (
+          <path
+            d="M 20 25 C 10 5, 30 5, 20 25"
+            stroke="#48bb78"
+            strokeWidth="2"
+            fill="none"
+            markerEnd="url(#arrow-valid)"
+          />
+        ) : (
+          <path
+            d="M 5 25 Q 25 5, 45 25"
+            stroke={isValid ? '#48bb78' : '#f56565'}
+            strokeWidth="2"
+            fill="none"
+            markerEnd={`url(#arrow-${isValid ? 'valid' : 'invalid'})`}
+          />
+        )}
+
         <defs>
-          <marker
-            id="arrow-valid"
-            markerWidth="10"
-            markerHeight="10"
-            refX="9"
-            refY="5"
-            orient="auto"
-          >
-            <path d="M0,0 L0,10 L10,5 Z" fill="#48bb78" />
+          <marker id="arrow-valid" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 Z" fill="#48bb78" />
           </marker>
-          <marker
-            id="arrow-invalid"
-            markerWidth="10"
-            markerHeight="10"
-            refX="9"
-            refY="5"
-            orient="auto"
-          >
-            <path d="M0,0 L0,10 L10,5 Z" fill="#f56565" />
+          <marker id="arrow-invalid" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 Z" fill="#f56565" />
           </marker>
         </defs>
       </svg>
 
-      {/* Caractere posicionado exatamente no ponto médio da curva */}
-      <div 
+      <div
         className={styles.charLabel}
         style={{
-          left: midX - 15,
-          top: midY - 15,
-          borderColor: isValid ? '#48bb78' : '#f56565',
-          color: isValid ? '#48bb78' : '#f56565'
+          left: from.x - 5,
+          top: from.y - 60,
+          borderColor: !isValid ? '#48bb78' : '#f56565',
+          color: !isValid ? '#48bb78' : '#f56565'
         }}
       >
         {char}

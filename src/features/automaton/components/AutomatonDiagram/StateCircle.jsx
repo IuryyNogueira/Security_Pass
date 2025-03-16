@@ -13,12 +13,7 @@ const StateCircle = ({ x, y, label, isActive, isAccept, isError }) => {
         top: y - 25
       }}
     >
-      {/* Círculo principal */}
-      <div className={styles.innerCircle}>
-        {label}
-      </div>
-      
-      {/* Círculo duplo apenas no último estado */}
+      <div className={styles.innerCircle}>{label}</div>
       {isAccept && <div className={styles.acceptRing}></div>}
     </div>
   );
