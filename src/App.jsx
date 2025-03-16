@@ -35,13 +35,16 @@ const App = () => {
         />
       </div>
 
-      {definedPassword && (
-        <AutomatonDiagram 
-          expectedPassword={definedPassword}
-          inputPassword={attemptPassword}
-          currentState={currentState}
-        />
-      )}
+      <div className="diagram">
+        {definedPassword && (
+          <AutomatonDiagram 
+            expectedPassword={definedPassword}
+            inputPassword={attemptPassword}
+            currentState={currentState}
+          />
+        )}        
+      </div>
+
     </div>
   );
 };

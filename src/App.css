@@ -19,3 +19,12 @@
     color: white;
     font-weight: bold;
   }
+
+  .diagram{
+    min-height: 20vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  

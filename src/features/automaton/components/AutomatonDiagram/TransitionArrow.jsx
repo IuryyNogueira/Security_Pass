@@ -49,8 +49,8 @@ const TransitionArrow = ({ from, to, char, isValid, isLoop }) => {
         style={{
           left: from.x - 5,
           top: from.y - 60,
-          borderColor: !isValid ? '#48bb78' : '#f56565',
-          color: !isValid ? '#48bb78' : '#f56565'
+          borderColor: isValid ? '#48bb78' : '#f56565',
+          color: isValid ? '#48bb78' : '#f56565'
         }}
       >
         {char}

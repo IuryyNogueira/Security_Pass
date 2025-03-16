@@ -4,73 +4,87 @@ import TransitionArrow2 from './TransitionArrow2';
 import styles from './styles.module.css';
 
 const AutomatonDiagram = ({ expectedPassword, inputPassword }) => {
-  const startPos = { x: 200, y: 300 }; // Estado inicial (q0)
-  const errorPos = { x: 400, y: 300 }; // Estado de erro (q1)
-  let isValid = true;
-  let errorChar = null;
-  let validChar = "✓"; // Por padrão, mostra um check
+  const startPos = { x: 625, y: 300 }; // Estado inicial (q0)
+  const errorPos = { x: 925, y: 300 }; // Estado de erro (q1)
 
-  for (let i = 0; i < expectedPassword.length; i++) {
-    if (inputPassword[i] !== expectedPassword[i]) {
+  // Se o input está vazio, já é inválido
+  if (!inputPassword) {
+    return (
+      <div className={styles.container}>
+        {/* Estado inicial */}
+        <StateCircle x={startPos.x} y={startPos.y} label="q0" isActive={true} />
+
+        {/* Seta para estado de erro com "_" */}
+        <TransitionArrow2
+          from={startPos}
+          to={errorPos}
+          char="_"
+          isValid={false}
+          color="#f56565"
+        />
+
+        {/* Estado de erro (q1) */}
+        <StateCircle x={errorPos.x} y={errorPos.y} label="q1" isError={true} isAccept={true} />
+
+        {/* Indicação VISUAL forte de erro */}
+        <div className={styles.invalidBox} style={{ left: errorPos.x - 100, top: errorPos.y + 60 }}>
+          <span className={styles.invalidText}>❌ SENHA INVÁLIDA</span>
+        </div>
+      </div>
+    );
+  }
+
+  let isValid = true;
+  let lastValidChar = null;
+  let lastInvalidChar = null;
+
+  // Comparação letra a letra
+  for (let i = 0; i < inputPassword.length; i++) {
+    if (inputPassword[i] === expectedPassword[i]) {
+      lastValidChar = inputPassword[i]; // Atualiza a última correta
+    } else {
       isValid = false;
-      errorChar = inputPassword[i] || "?";
-      break;
+      lastInvalidChar = inputPassword[i]; // Última incorreta
     }
-    validChar = inputPassword[i]; // Atualiza o último caractere válido
   }
 
   return (
     <div className={styles.container}>
-      {/* Estado inicial q0 */}
-      <StateCircle 
-        x={startPos.x} 
-        y={startPos.y} 
-        label="q0" 
-        isActive={!errorChar} 
-        isAccept={false} 
-        isError={false} 
+      {/* Estado inicial */}
+      <StateCircle x={startPos.x} y={startPos.y} label="q0" isActive={true} isAccept={isValid && inputPassword.length === expectedPassword.length} />
+
+      {/* Seta para estado válido (mostra última letra correta) */}
+      <TransitionArrow
+        from={startPos}
+        to={isValid ? startPos : errorPos}
+        char={lastValidChar || "?"}
+        isValid={isValid}
       />
 
-      {/* Laço no q0 com o último caractere válido */}
-      <TransitionArrow 
-        from={startPos} 
-        to={startPos} 
-        char={validChar} 
-        isValid={isValid} 
-        isLoop 
-      />
-
-      {/* Estado de erro q1, só aparece se houver erro */}
+      {/* Se houver erro, seta para q1 (mostra última letra errada) */}
       {!isValid && (
         <>
-          <TransitionArrow2 
-            from={startPos} 
-            to={errorPos} 
-            char={errorChar} 
-            isValid={false} 
-            color="#f56565" // Vermelho
+          <TransitionArrow2
+            from={startPos}
+            to={errorPos}
+            char={lastInvalidChar || "?"}
+            isValid={false}
+            color="#f56565"
           />
 
-          <StateCircle 
-            x={errorPos.x} 
-            y={errorPos.y} 
-            label="q1" 
-            isActive={true} 
-            isAccept={false} 
-            isError={true} 
-          />
+          <StateCircle x={errorPos.x} y={errorPos.y} label="q1" isError={true} isAccept={true} />
 
-          {/* Caixa de "Inválido" abaixo do estado q1 */}
-          <div className={styles.invalidBox} style={{ left: errorPos.x - 40, top: errorPos.y + 50 }}>
-            Inválido
+          {/* Indicação VISUAL forte de erro */}
+          <div className={styles.invalidBox} style={{ left: errorPos.x - 100, top: errorPos.y + 60 }}>
+            <span className={styles.invalidText}>❌ SENHA INVÁLIDA</span>
           </div>
         </>
       )}
 
-      {/* Caixa de "Válido", aparece apenas se tudo estiver correto */}
+      {/* Exibir "Senha Válida" se todas as letras forem corretas */}
       {isValid && inputPassword.length === expectedPassword.length && (
-        <div className={styles.validBox} style={{ left: startPos.x - 40, top: startPos.y + 50 }}>
-          Válido
+        <div className={styles.validBox} style={{ left: startPos.x - 100, top: startPos.y + 60 }}>
+          <span className={styles.validText}>✅ SENHA VÁLIDA</span>
         </div>
       )}
     </div>

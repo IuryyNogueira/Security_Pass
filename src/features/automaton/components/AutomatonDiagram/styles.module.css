@@ -29,9 +29,14 @@
   position: absolute;
   width: 60px;
   height: 60px;
-  border: 2px solid #48bb78;
+  border: 2px solid #48bb78; /* Verde por padrão */
   border-radius: 50%;
   animation: pulse 2s infinite;
+}
+
+/* Quando o estado final for q1, torna o anel vermelho */
+.error .acceptRing {
+  border-color: #f56565 !important;
 }
 
 /* Estados */
@@ -66,4 +71,28 @@
   text-align: center;
   min-width: 24px;
   transition: all 0.3s ease;
+}
+
+.validBox, .invalidBox {
+  position: absolute;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 22px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.validText {
+  color: #ffffff;
+  border: 2px solid #2f855a;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.invalidText {
+  color: #ffffff;
+  border: 2px solid #c53030;
+  padding: 8px 12px;
+  border-radius: 6px;
 }
