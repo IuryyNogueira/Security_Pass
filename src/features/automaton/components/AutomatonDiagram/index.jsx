@@ -24,7 +24,7 @@ const AutomatonDiagram = ({ expectedPassword, inputPassword }) => {
         />
 
         {/* Estado de erro (q1) */}
-        <StateCircle x={errorPos.x} y={errorPos.y} label="q1" isError={true} isAccept={true} />
+        <StateCircle x={errorPos.x} y={errorPos.y} label="qr" isError={true} isAccept={true} />
 
         {/* Indicação VISUAL forte de erro */}
         <div className={styles.invalidBox} style={{ left: errorPos.x - 100, top: errorPos.y + 60 }}>
@@ -79,7 +79,7 @@ const AutomatonDiagram = ({ expectedPassword, inputPassword }) => {
             color="#f56565"
           />
 
-          <StateCircle x={errorPos.x} y={errorPos.y} label="q1" isError={true} isAccept={true} />
+          <StateCircle x={errorPos.x} y={errorPos.y} label="qr" isError={true} isAccept={true} />
 
           {/* Indicação VISUAL forte de erro */}
           <div className={styles.invalidBox} style={{ left: errorPos.x - 100, top: errorPos.y + 60 }}>
