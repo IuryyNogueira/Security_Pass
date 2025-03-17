@@ -48,6 +48,12 @@ const AutomatonDiagram = ({ expectedPassword, inputPassword }) => {
     }
   }
 
+  // Se a senha for uma substring da esperada, deve ser inválida
+  if (isValid && inputPassword.length < expectedPassword.length) {
+    isValid = false;
+    lastInvalidChar = "?"; // Indica que falta completar
+  }
+
   return (
     <div className={styles.container}>
       {/* Estado inicial */}
@@ -61,7 +67,7 @@ const AutomatonDiagram = ({ expectedPassword, inputPassword }) => {
         isValid={isValid}
       />
 
-      {/* Se houver erro, seta para q1 (mostra última letra errada) */}
+      {/* Se houver erro, seta para q1 (mostra última letra errada ou indica incompleto) */}
       {!isValid && (
         <>
           <TransitionArrow2
