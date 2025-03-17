@@ -59,12 +59,13 @@ const AutomatonDiagram = ({ expectedPassword, inputPassword }) => {
       {/* Estado inicial */}
       <StateCircle x={startPos.x} y={startPos.y} label="q0" isActive={true} isAccept={isValid && inputPassword.length === expectedPassword.length} />
 
-      {/* Seta para estado válido (mostra última letra correta) */}
+      {/* Seta para estado válido (mostra última letra correta, cor verde se correta) */}
       <TransitionArrow
         from={startPos}
-        to={isValid ? startPos : errorPos}
+        to={startPos}
         char={lastValidChar || "?"}
-        isValid={isValid}
+        isValid={true}
+        color="#48bb78" // Verde para indicar entrada correta
       />
 
       {/* Se houver erro, seta para q1 (mostra última letra errada ou indica incompleto) */}
